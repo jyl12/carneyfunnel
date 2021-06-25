@@ -1,6 +1,7 @@
 import time
 import serial
-
+import vision
+import datetime
 # ser = serial.Serial(
 #  port='/dev/ttyUSB0',
 #  baudrate = 2400,
@@ -9,6 +10,7 @@ import serial
 #  bytesize=serial.SEVENBITS,
 #  timeout=None
 # )
+laser=0
 
 if __name__ == "__main__":
     while True:
@@ -19,11 +21,17 @@ if __name__ == "__main__":
         print("Weight of empty cup (gram): ", weight_powder)
         weight_emptycup = float(input("Enter weight of empty cup (gram): "))
         print("Weight of empty cup (gram): ", weight_emptycup)
-        
-        #all the processes
-        time = 30
-        flowrate = time / weight_powder
-        print('Flowrate (seconds/gram): ',flowrate)
+        while laser == 1:
+            time.sleep(0.02)
+            start_time = time.time()
+        print('Stopwatch started')
+        while laser == 0:
+            time.sleep(0.02)
+        end_time = time.time()
+        duration = end_time - start_time
+        print('Duration (second): ', duration)
+        flowrate = duration / weight_powder
+        print('Flowrate (second/gram): ',flowrate)
         weight_scrapecup = float(input("Enter weight of scraped cup (gram): "))
         print("Weight of scraped cup (gram): ", weight_scrapecup)
         apparent_density = weight_scrapecup / weight_powder
