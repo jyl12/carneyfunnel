@@ -47,9 +47,6 @@ class ServiceAnalysis(object):
 #         print('apparent density')
         apparent_density = weight_scrapecup / weight_powder
         return apparent_density
-def on_message(client, userdata, message):
-    print("message received " ,str(message.payload.decode("utf-8")))
-    print("message topic=",message.topic)
    
 if __name__ == "__main__":
     print('analysis main')

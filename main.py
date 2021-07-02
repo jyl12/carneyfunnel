@@ -1,11 +1,15 @@
 import time
 import serial
 import datetime
+import os
 import paho.mqtt.client as mqtt
 
 import analysis.main 
 import state_data_storage.main
 import data_collection.main
+import data_collection.scanner
+
+USER_INPUT = 1
 
 class Communication (object):
     def __init__(self, message = None):
@@ -49,12 +53,20 @@ if __name__ == "__main__":
 #     Communication()
     #####
 #     data_collection.main.ServicDataCollection.usb_scale()
+    data_collection.scanner.Scanner().start()
 #     state_data_storage.main.start()
+    print('---Ready---')
     while True:
         if step == 1:
-            batch_code = input("Enter batch code: ")
-            print("Batch code is: " + batch_code)
-            step = 2
+            with open('data_collection/barcode_result.txt', 'r+') as f:
+                if os.stat('data_collection/barcode_result.txt').st_size == 0:
+                    pass
+                else:
+                    batch_code = f.readline()
+                    print("Batch code is: " + batch_code)
+                    time.sleep(5)
+                    f.truncate(0)
+                    step = 2
 #          weight_emptycup = ser.readline()
         elif step == 2:
             try:
