@@ -1,6 +1,6 @@
 import serial
 
-class service_data_collection(object):
+class ServiceDataCollection(object):
     def usb_scale():
         print('usbweight')
 #         ser = serial.Serial(
