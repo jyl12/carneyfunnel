@@ -2,14 +2,18 @@ import time
 import serial
 import datetime
 import os
+from pynput.keyboard import Key, Controller
+import keyboard
 import paho.mqtt.client as mqtt
 
 import analysis.main 
 import state_data_storage.main
-import data_collection.main
+import data_collection.weighing
 import data_collection.scanner
 
 USER_INPUT = 1
+carney, hall = range (0,2)
+FUNNEL = carney
 
 class Communication (object):
     def __init__(self, message = None):
@@ -53,11 +57,12 @@ if __name__ == "__main__":
 #     Communication()
     #####
 #     data_collection.main.ServicDataCollection.usb_scale()
-    data_collection.scanner.Scanner().start()
+#     data_collection.scanner.Scanner().start()
 #     state_data_storage.main.start()
     print('---Ready---')
+    print('Please scan a batch code.')
     while True:
-        if step == 1:
+        if step == 1: #can change keyboard input if a key is pressed.
             with open('data_collection/barcode_result.txt', 'r+') as f:
                 if os.stat('data_collection/barcode_result.txt').st_size == 0:
                     pass
@@ -90,7 +95,13 @@ if __name__ == "__main__":
                 laser = float(input("Enter laser: "))
             end_time = time.time()
             duration = end_time - start_time
-            print('Duration (second): ', duration)
+            if FUNNEL == carney:
+                print('Duration (second): ', duration)
+            elif FUNNEL == hall:
+                duration = 1.1 * duration
+                print('Corrected duration (second): ', duration)
+            else:
+                pass
             flowrate = analysis.main.ServiceAnalysis.flowrate(duration, weight_powder)
             print('Flowrate (second/gram): ',flowrate)
             step = 4
@@ -108,7 +119,7 @@ if __name__ == "__main__":
 #             state_data_storage.main.Temp2.set_value(batch_code)
 #             state_data_storage.main.Temp3.set_value(round(flowrate,6))
 #             state_data_storage.main.Temp4.set_value(round(apparent_density,6))
-#             state_data_storage.main.write_csv('file',start = time.ctime(int(start_time)),
+#             state_data_storage.main.write_csv('record_file',start = time.ctime(int(start_time)),
 #                                               batch = batch_code,
 #                                               duration = round(duration,6),
 #                                               flowrate = round(flowrate,6),

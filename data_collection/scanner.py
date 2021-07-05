@@ -1,11 +1,14 @@
 import cv2
 from pyzbar import pyzbar
 import threading
+from pynput.keyboard import Key, Listener
 
 class Scanner:
     def start(self):
         t = threading.Thread(target = self.main)
         t.start()
+#         t2 = threading.Thread(target = self.user)
+#         t2.start()
 
     def read_barcodes(self, frame):
         barcodes = pyzbar.decode(frame)
@@ -37,6 +40,23 @@ class Scanner:
         #3
         camera.release()
         cv2.destroyAllWindows()
+  
+    def show(self, key):
+        
+        if key == Key.esc:
+            print("good")
+                          
+        if key != Key.esc:
+            print("try again")
+              
+        # by pressing 'delete' button 
+        # you can terminate the loop 
+        if key == Key.delete: 
+            return False    
+    def user(self):
+        # Collect all event until released
+        with Listener(on_press = self.show) as listener:
+            listener.join()
         
 def read_barcodes( frame):
     barcodes = pyzbar.decode(frame)
@@ -71,5 +91,5 @@ def main():
 #4
 if __name__ == '__main__':
     print('scan')
-    Scanner().main()
+    Scanner().user()
 #     main()
