@@ -12,7 +12,7 @@ import state_data_storage.main
 import data_collection.weighing
 import data_collection.scanner
 
-USER_INPUT_BATCH = 1 #enable user input batch code
+USER_INPUT = 1 #enable user input mode
 carney, hall = range (0,2)
 FUNNEL = carney
 count = 0
@@ -39,8 +39,6 @@ def laser_detector(pin):
     else:
         print('Laser not detected.')
         laser = 1  #due to damaged sensor
-    # Add time delay
-    time.sleep(0.2)
     return laser
     
 class Communication (object):
@@ -84,14 +82,14 @@ if __name__ == "__main__":
 #     print('main')
 #     Communication()
     #####
-#     data_collection.main.ServicDataCollection.usb_scale()
-#     data_collection.scanner.Scanner().start()
+    w = data_collection.weighing.ServiceDataCollection().run()
+#     data_collection.scanner.Scanner().start() #camera
 #     state_data_storage.main.start()
     print('---Ready---')
-    print('Please scan a batch code.')
+    print('Please enter/scan a batch code.')
     while True:
         if step == 1: #can change keyboard input if a key is pressed.
-            if USER_INPUT_BATCH == 1:
+            if USER_INPUT == 1:
                     batch_code = input("Enter batch code: ")
                     step = 2
             else:
@@ -107,9 +105,16 @@ if __name__ == "__main__":
 #          weight_emptycup = ser.readline()
         elif step == 2:
             try:
-                weight_powder = float(input("Enter powder mass (gram): "))
-                print("Powder mass (gram): ", weight_powder)
-                step = 3
+                if USER_INPUT == 1:
+                    weight_powder = float(input("Enter powder mass (gram): "))
+                    print("Powder mass (gram): ", weight_powder)
+                    step = 3
+                else:
+                    while w is None:
+                        pass
+                    weight_powder = w 
+                    print("Powder mass (gram): ", weight_powder)
+                    step = 3
             except ValueError:
                 print("That's not a number.")
         elif step == 3:
@@ -143,11 +148,20 @@ if __name__ == "__main__":
                 pass
         elif step == 4:
             try:
-                weight_scrapecup = float(input("Enter powder mass of scraped cup (gram): "))
-                print("Powder mass of scraped cup (gram): ", weight_scrapecup)
-                apparent_density = analysis.main.ServiceAnalysis.apparent_density(weight_scrapecup, weight_powder)
-                print('Apparent density (gram/cm3): ', apparent_density)
-                step = 5
+                if USER_INPUT == 1:
+                    weight_scrapecup = float(input("Enter powder mass of scraped cup (gram): "))
+                    print("Powder mass of scraped cup (gram): ", weight_scrapecup)
+                    apparent_density = analysis.main.ServiceAnalysis.apparent_density(weight_scrapecup, weight_powder)
+                    print('Apparent density (gram/cm3): ', apparent_density)
+                    step = 5
+                else:
+                    while w is None:
+                        pass
+                    weight_scrapecup = w
+                    print("Powder mass of scraped cup (gram): ", weight_scrapecup)
+                    apparent_density = analysis.main.ServiceAnalysis.apparent_density(weight_scrapecup, weight_powder)
+                    print('Apparent density (gram/cm3): ', apparent_density)
+                    step = 5
             except ValueError:
                 print("That's not a number.")
         elif step == 5:
@@ -161,6 +175,7 @@ if __name__ == "__main__":
 #                                               flowrate = round(flowrate,6),
 #                                               apparentdensity = round(apparent_density,6))
             step = 1
+            print('Please enter/scan a batch code.')
         else:
             pass
 
