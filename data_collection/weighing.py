@@ -3,8 +3,8 @@ import re
 import threading
 
 class ServiceDataCollection(object):
-    def __init__(self):
-        pass
+    def __init__(self):     
+        self.weight = 0
 #         ser = serial.Serial(
 #          port='/dev/ttyUSB0',
 #          baudrate = 2400,
@@ -16,19 +16,18 @@ class ServiceDataCollection(object):
         
     def start(self):
         t = threading.Thread(target = self.run)
+        t.daemon = True
         t.start()
         
     def run(self):
         print('usbweight')
         while True:
-            weight = input("try: ")
-            return weight
+            self.weight = input("try: ")
 #         while True:
 #             raw = ser.readline()
 #             w = raw.decode('UTF-8')
-#             weight = (re.findall(r"[-+]?\d*\.?\d+|\d+", w))
-#             weight = float(weight[0])       
-#             return weight
+#             self.weight = (re.findall(r"[-+]?\d*\.?\d+|\d+", w))
+#             self.weight = float(self.weight[0])       
     def read(self):
         raw = ser.readline()
         w = raw.decode('UTF-8')
