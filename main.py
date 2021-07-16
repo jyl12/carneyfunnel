@@ -16,7 +16,6 @@ USER_INPUT = 1 #enable user input mode
 carney, hall = range (0,2)
 FUNNEL = carney
 count = 0
-w = 0
 
 GPIO.setmode(GPIO.BCM)
 # Light sensor pin
@@ -112,10 +111,9 @@ if __name__ == "__main__":
                     print("Powder mass (gram): ", weight_powder)
                     step = 3
                 else:
-                    while w == 0:
-                        w = weigh.weight
-                    weight_powder = w
-                    w = 0
+                    while weigh.weight == 0:
+                        weight_powder = weigh.weight
+                    weigh.weight = 0
                     print("Powder mass (gram): ", weight_powder)
                     step = 3
             except ValueError:
@@ -158,10 +156,9 @@ if __name__ == "__main__":
                     print('Apparent density (gram/cm3): ', apparent_density)
                     step = 5
                 else:
-                    while w == 0:
-                        w = weigh.weight
-                    weight_scrapecup = w
-                    w = 0
+                    while weigh.weight == 0:
+                        weight_scrapecup = weigh.weight
+                    weigh.weight = 0
                     print("Powder mass of scraped cup (gram): ", weight_scrapecup)
                     apparent_density = analysis.main.ServiceAnalysis.apparent_density(weight_scrapecup, weight_powder)
                     print('Apparent density (gram/cm3): ', apparent_density)
