@@ -20,11 +20,21 @@ class ServiceDataCollection(object):
         
     def run(self):
         print('usbweight')
-#         raw = ser.readline()
-#         w = raw.decode('UTF-8')
-#         weight = (re.findall(r"[-+]?\d*\.?\d+|\d+", w))
-#         weight = float(weight[0])       
-#         return weight
+        while True:
+            weight = input("try: ")
+            return weight
+#         while True:
+#             raw = ser.readline()
+#             w = raw.decode('UTF-8')
+#             weight = (re.findall(r"[-+]?\d*\.?\d+|\d+", w))
+#             weight = float(weight[0])       
+#             return weight
+    def read(self):
+        raw = ser.readline()
+        w = raw.decode('UTF-8')
+        weight = (re.findall(r"[-+]?\d*\.?\d+|\d+", w))
+        weight = float(weight[0])       
+        return weight        
 
 if __name__ == "__main__":
     print('analysis main')

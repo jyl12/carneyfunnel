@@ -83,7 +83,6 @@ if __name__ == "__main__":
 #     print('main')
 #     Communication()
     #####
-    w = data_collection.weighing.ServiceDataCollection().run()
 #     data_collection.scanner.Scanner().start() #camera
 #     state_data_storage.main.start()
     print('---Ready---')
@@ -112,7 +111,7 @@ if __name__ == "__main__":
                     step = 3
                 else:
                     while w == 0:
-                        pass
+                        w = data_collection.weighing.ServiceDataCollection().read()
                     weight_powder = w
                     w = 0
                     print("Powder mass (gram): ", weight_powder)
@@ -158,7 +157,7 @@ if __name__ == "__main__":
                     step = 5
                 else:
                     while w == 0:
-                        pass
+                        w = data_collection.weighing.ServiceDataCollection().read()
                     weight_scrapecup = w
                     w = 0
                     print("Powder mass of scraped cup (gram): ", weight_scrapecup)
