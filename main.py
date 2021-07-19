@@ -14,7 +14,7 @@ import data_collection.scanner
 
 USER_INPUT = 1 #enable user input mode
 carney, hall = range (0,2)
-FUNNEL = carney
+FUNNEL = carney #funnel type
 count = 0
 
 GPIO.setmode(GPIO.BCM)
@@ -75,6 +75,10 @@ class Communication (object):
 
 if __name__ == "__main__":
     step = 1
+    if FUNNEL == carney:
+        print('---Carney funnel selected.---')
+    else:
+        print('---Hall funnel selected.---')
     print('---Booting up---')
     ##### communication not stable
 #     analysis.main.Communication()
