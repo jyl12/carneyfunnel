@@ -34,11 +34,11 @@ def laser_detector(pin):
     # print('Light sensor value: ',GPIO.input(pin))
     # Read light sensor and display status
     if GPIO.input(pin) == 1:
-        print('Laser detected.')
-        laser = 0 #due to damaged sensor
+#         print('Laser detected.')
+        laser = 1 
     else:
-        print('Laser not detected.')
-        laser = 1  #due to damaged sensor
+#         print('Laser not detected.')
+        laser = 0
     return laser
     
 class Communication (object):
@@ -110,12 +110,14 @@ if __name__ == "__main__":
                     weight_powder = float(input("Enter powder mass (gram): "))
                     print("Powder mass (gram): ", weight_powder)
                     step = 3
+                    print('Stopwatch ready, release the powder.')
                 else:
                     while weigh.weight == 0:
                         weight_powder = weigh.weight
                     weigh.weight = 0
                     print("Powder mass (gram): ", weight_powder)
                     step = 3
+                    print('Stopwatch ready, release the powder.')
             except ValueError:
                 print("That's not a number.")
         elif step == 3:
@@ -176,6 +178,7 @@ if __name__ == "__main__":
 #                                               flowrate = round(flowrate,6),
 #                                               apparentdensity = round(apparent_density,6))
             step = 1
+            print('----------')
             print('Please enter/scan a batch code.')
         else:
             pass
