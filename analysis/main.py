@@ -40,12 +40,12 @@ class ServiceAnalysis(object):
         
     def flowrate(duration, weight_powder):
 #         print('flowrate')
-        flowrate = duration / weight_powder
+        flowrate = weight_powder / duration
         return flowrate
 
-    def apparent_density(weight_scrapecup, weight_powder):
+    def apparent_density(weight_scrapecup, cup_volume):
 #         print('apparent density')
-        apparent_density = weight_scrapecup / weight_powder
+        apparent_density = weight_scrapecup / cup_volume
         return apparent_density
    
 if __name__ == "__main__":

@@ -12,10 +12,11 @@ import state_data_storage.main
 import data_collection.weighing
 import data_collection.scanner
 
-USER_INPUT = 1 #enable user input mode
+count = 0
 carney, hall = range (0,2)
 FUNNEL = carney #funnel type
-count = 0
+USER_INPUT = 1 #enable user input mode
+CERTIFIED_CUP_VOLUME = 100.00 #certified cup volume
 
 GPIO.setmode(GPIO.BCM)
 # Light sensor pin
@@ -143,13 +144,13 @@ if __name__ == "__main__":
             if FUNNEL == carney:
                 print('Duration (second): ', duration)
                 flowrate = analysis.main.ServiceAnalysis.flowrate(duration, weight_powder)
-                print('Flowrate (second/gram): ',flowrate)
+                print('Flowrate (gram/second): ',flowrate)
                 step = 4
             elif FUNNEL == hall:
                 duration = 1.1 * duration
                 print('Corrected duration (second): ', duration)
                 flowrate = analysis.main.ServiceAnalysis.flowrate(duration, weight_powder)
-                print('Flowrate (second/gram): ',flowrate)
+                print('Flowrate (gram/second): ',flowrate)
                 step = 4
             else:
                 pass
@@ -166,7 +167,7 @@ if __name__ == "__main__":
                         weight_scrapecup = weigh.weight
                     weigh.weight = 0
                     print("Powder mass of scraped cup (gram): ", weight_scrapecup)
-                    apparent_density = analysis.main.ServiceAnalysis.apparent_density(weight_scrapecup, weight_powder)
+                    apparent_density = analysis.main.ServiceAnalysis.apparent_density(weight_scrapecup, CERTIFIED_CUP_VOLUME)
                     print('Apparent density (gram/cm3): ', apparent_density)
                     step = 5
             except ValueError:
