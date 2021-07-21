@@ -15,10 +15,11 @@ import data_collection.scanner
 count = 0
 carney, hall = range (0,2)
 FUNNEL = carney #funnel type
-USER_INPUT = 1 #enable user input mode
-CERTIFIED_CUP_VOLUME = 100.00 #certified cup volume
+USER_INPUT = 1 #1:enable user input mode; 0:disable user input
+CERTIFIED_CUP_VOLUME = 100.20 #certified cup volume
 
 GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 # Light sensor pin
 pin = 21 #pin GPIO 21
 # Laser pin
@@ -140,7 +141,7 @@ if __name__ == "__main__":
                         count = 0
                         break
             end_time = time.time()
-            duration = end_time - start_time
+            duration = end_time - start_time  
             if FUNNEL == carney:
                 print('Duration (second): ', duration)
                 flowrate = analysis.main.ServiceAnalysis.flowrate(duration, weight_powder)
@@ -159,7 +160,7 @@ if __name__ == "__main__":
                 if USER_INPUT == 1:
                     weight_scrapecup = float(input("Enter powder mass of scraped cup (gram): "))
                     print("Powder mass of scraped cup (gram): ", weight_scrapecup)
-                    apparent_density = analysis.main.ServiceAnalysis.apparent_density(weight_scrapecup, weight_powder)
+                    apparent_density = analysis.main.ServiceAnalysis.apparent_density(weight_scrapecup, CERTIFIED_CUP_VOLUME)
                     print('Apparent density (gram/cm3): ', apparent_density)
                     step = 5
                 else:
