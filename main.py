@@ -77,10 +77,6 @@ class Communication (object):
 
 if __name__ == "__main__":
     step = 1
-    if FUNNEL == carney:
-        print('---Carney funnel selected.---')
-    else:
-        print('---Hall funnel selected.---')
     print('---Booting up---')
     ##### communication not stable
 #     analysis.main.Communication()
@@ -93,6 +89,32 @@ if __name__ == "__main__":
 #     data_collection.scanner.Scanner().start() #camera
 #     state_data_storage.main.start()
     print('---Ready---')
+#     while True:
+#         try:
+#             FUNNEL = int(input('Choose funnel type [0:Carney, 1:Hall]: '))
+#             if FUNNEL == carney:
+#                 print('---Carney funnel selected.---')
+#                 break
+#             elif FUNNEL == hall:
+#                 print('---Hall funnel selected.---')
+#                 break
+#             else:
+#                 raise ValueError
+#         except ValueError:
+#             print('Please enter 0 or 1.')
+#     while True:
+#         try:
+#             USER_INPUT = int(input('User input method [0:Disable, 1:Enable]: '))
+#             if USER_INPUT == 0:
+#                 print('---User input disabled.---')
+#                 break
+#             elif USER_INPUT == 1:
+#                 print('---User input enabled.---')
+#                 break
+#             else:
+#                 raise ValueError
+#         except ValueError:
+#             print('Please enter 0 or 1.')
     print('Please enter/scan a batch code.')
     while True:
         if step == 1: #can change keyboard input if a key is pressed.
