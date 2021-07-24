@@ -7,26 +7,28 @@ import keyboard
 import paho.mqtt.client as mqtt
 import RPi.GPIO as GPIO
 
+# Service modules
 import analysis.main 
 import state_data_storage.main
 import data_collection.weighing
 import data_collection.scanner
 
+#General settings
 count = 0
 carney, hall = range (0,2)
-FUNNEL = carney #funnel type
-USER_INPUT = 1 #1:enable user input mode; 0:disable user input
+FUNNEL = carney #funnel type: carney or hall
+USER_INPUT = 1 #1:enable user input; 0:disable user input
 CERTIFIED_CUP_VOLUME = 100.20 #certified cup volume
 
+#GPIO settings
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-# Light sensor pin
-pin = 21 #pin GPIO 21
-# Laser pin
-ledpin = 20 #pin GPIO 20
+pin = 21 #Light sensor pin: pin GPIO 21
+ledpin = 20 #Laser pin: pin GPIO 20
 # Setup pin in and out directions
 GPIO.setup(pin, GPIO.IN)
 GPIO.setup(ledpin, GPIO.OUT)
+
 def laser_detector(pin):
     #Turn on the laser
     GPIO.output(ledpin, GPIO.HIGH)
@@ -89,6 +91,14 @@ if __name__ == "__main__":
 #     data_collection.scanner.Scanner().start() #camera
 #     state_data_storage.main.start()
     print('---Ready---')
+    if FUNNEL == carney:
+        print('---Carney funnel selected.---')
+    elif FUNNEL == hall:
+        print('---Hall funnel selected.---')
+    if USER_INPUT == 0:
+        print('---User input disabled.---')
+    elif USER_INPUT == 1:
+        print('---User input enabled.---')
 #     while True:
 #         try:
 #             FUNNEL = int(input('Choose funnel type [0:Carney, 1:Hall]: '))
@@ -117,7 +127,7 @@ if __name__ == "__main__":
 #             print('Please enter 0 or 1.')
     print('Please enter/scan a batch code.')
     while True:
-        if step == 1: #can change keyboard input if a key is pressed.
+        if step == 1:
             if USER_INPUT == 1:
                     batch_code = input("Enter batch code: ")
                     step = 2
