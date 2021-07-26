@@ -1,0 +1,35 @@
+{
+	"service":
+	{
+		"id":"scanner_1",
+		"location":"Cutting"
+	},
+	"mqtt_client":{
+		"client_name":"bcode_client",
+		"sub_topics":[
+		],
+		"broker_fqdn":"mqtt.docker.local",
+		"broker_port":8883,
+		"keepalive":60
+	},
+	"barcode_scanner":{
+		"serial":"0c2e_0901",
+		"connection_point":[
+			"0",
+			"1.2"
+		],
+		"mode_barcodes":{
+			"":"receive"
+		},
+		"mode_text":{
+			"receive":"I",
+			"send":"O"
+		},
+		"mode_change_topic":"barcode_scan/control/mode_change",
+		"mode_change_format":"{\"mode_changed_to\":\"$mode\"}",
+		"barcode_match_re":"%(.*)",
+		"barcode_topic_template":"$service_id/feeds/jobs",
+		"barcode_event_format":"{\"job_id\":\"$bc_data\", \"location\":\"$location\", \"mode\":\"$mode_text\",\"timestamp\":\"$timestamp\"}"
+
+	}
+}

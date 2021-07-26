@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+        app:
+                privileged: true
+                build: 
+                        context: ./
+                command: python3 Main.py
+                devices:
+                        - /dev/input:/dev/input:ro
+                          #- /run/udev:/run/udev:ro
+                volumes:
+                        - ./:/code
+                        - /etc/localtime:/etc/localtime:ro
+                        - /run/udev:/run/udev:ro
+                environment:
+                    - app_config=in_scanner_config.json

@@ -7,8 +7,8 @@ class ServiceDataCollection(object):
         self.weight = 0
 #         ser = serial.Serial(
 #          port='/dev/ttyUSB0',
-#          baudrate = 2400,
-#          parity=serial.PARITY_EVEN,
+#          baudrate = 9600,
+#          parity=serial.PARITY_ODD,
 #          stopbits=serial.STOPBITS_ONE,
 #          bytesize=serial.SEVENBITS,
 #          timeout=None
@@ -36,15 +36,26 @@ class ServiceDataCollection(object):
         return weight        
 
 if __name__ == "__main__":
-    print('analysis main')
-    my_string_two = b'+   123.56 g  /r/n'
-    print(my_string_two.decode('UTF-8'))
-    my_string_two = my_string_two.decode('UTF-8')
-    print(re.findall(r"[-+]?\d*\.?\d+|\d+", my_string_two))
-    weight = (re.findall(r"[-+]?\d*\.?\d+|\d+", my_string_two))
-    weight = float(weight[0])
-    print('weight: ',weight)
-    print(type(weight))
-    
+    ser = serial.Serial('/dev/ttyACM0', 9600,
+                        parity=serial.PARITY_ODD,
+                        stopbits=serial.STOPBITS_ONE,
+                        bytesize=serial.SEVENBITS,
+                        timeout=1)
+    ser.flush()
+    while True:
+        if ser.in_waiting > 0:
+            line = ser.readline().decode('utf-8').rstrip()
+            print(line)
+            
+#     print('analysis main')
+#     my_string_two = b'+   123.56 g  /r/n'
+#     print(my_string_two.decode('UTF-8'))
+#     my_string_two = my_string_two.decode('UTF-8')
+#     print(re.findall(r"[-+]?\d*\.?\d+|\d+", my_string_two))
+#     weight = (re.findall(r"[-+]?\d*\.?\d+|\d+", my_string_two))
+#     weight = float(weight[0])
+#     print('weight: ',weight)
+#     print(type(weight))
+#     
 
     
