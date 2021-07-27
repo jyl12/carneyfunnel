@@ -150,8 +150,10 @@ if __name__ == "__main__":
                     step = 3
                     print('Stopwatch ready, release the powder.')
                 else:
+                    print('Enter powder mass:')
                     while weigh.weight == 0:
                         weight_powder = weigh.weight
+                    weight_powder = weigh.weight
                     weigh.weight = 0
                     print("Powder mass (gram): ", weight_powder)
                     step = 3
@@ -196,8 +198,10 @@ if __name__ == "__main__":
                     print('Apparent density (gram/cm3): ', apparent_density)
                     step = 5
                 else:
+                    print('Enter powder mass of scraped cup:')
                     while weigh.weight == 0:
                         weight_scrapecup = weigh.weight
+                    weight_scrapecup = weigh.weight
                     weigh.weight = 0
                     print("Powder mass of scraped cup (gram): ", weight_scrapecup)
                     apparent_density = analysis.main.ServiceAnalysis.apparent_density(weight_scrapecup, CERTIFIED_CUP_VOLUME)

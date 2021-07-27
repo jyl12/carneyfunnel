@@ -5,14 +5,15 @@ import threading
 class ServiceDataCollection(object):
     def __init__(self):     
         self.weight = 0
-#         ser = serial.Serial(
-#          port='/dev/ttyUSB0',
-#          baudrate = 9600,
-#          parity=serial.PARITY_ODD,
-#          stopbits=serial.STOPBITS_ONE,
-#          bytesize=serial.SEVENBITS,
-#          timeout=None
-#         )
+        self.ser = serial.Serial(
+         port='/dev/ttyACM0', #'/dev/ttyUSB0',
+         baudrate = 9600,
+         parity=serial.PARITY_ODD,
+         stopbits=serial.STOPBITS_ONE,
+         bytesize=serial.SEVENBITS,
+         timeout=None
+        )
+        self.ser.flush()
         
     def start(self):
         t = threading.Thread(target = self.run)
@@ -20,14 +21,15 @@ class ServiceDataCollection(object):
         t.start()
         
     def run(self):
-        print('usbweight')
-        while True:
-            self.weight = input("try: ")
+#         print('usbweight')
 #         while True:
-#             raw = ser.readline()
-#             w = raw.decode('UTF-8')
-#             self.weight = (re.findall(r"[-+]?\d*\.?\d+|\d+", w))
-#             self.weight = float(self.weight[0])       
+#             self.weight = input("try: ")
+        while True:
+            raw = self.ser.readline()
+            w = raw.decode('UTF-8')
+            self.weight = (re.findall(r"[-+]?\d*\.?\d+|\d+", w))
+            self.weight = float(self.weight[0])
+            
     def read(self):
         raw = ser.readline()
         w = raw.decode('UTF-8')
