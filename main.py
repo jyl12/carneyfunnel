@@ -15,9 +15,10 @@ import data_collection.scanner
 
 #General settings
 count = 0
+step = 1
 carney, hall = range (0,2)
 FUNNEL = carney #funnel type: carney or hall
-USER_INPUT = 1 #1:enable user input; 0:disable user input
+MANUAL_INPUT = 1 #1:enable manual input; 0:disable manual input
 CERTIFIED_CUP_VOLUME = 100.20 #certified cup volume
 
 #GPIO settings
@@ -78,30 +79,17 @@ class Communication (object):
         time.sleep(4)
 
 if __name__ == "__main__":
-    step = 1
-    print('---Booting up---')
-    ##### communication not stable
-#     analysis.main.Communication()
-#     time.sleep(1)
-#     print('main')
-#     Communication()
-    #####
-#     weigh = data_collection.weighing.ServiceDataCollection()
-#     weigh.start()
-#     data_collection.scanner.Scanner().start() #camera
-    state_data_storage.main.start()
-    print('---Ready---')
-#     if FUNNEL == carney:
-#         print('---Carney funnel selected.---')
-#     elif FUNNEL == hall:
-#         print('---Hall funnel selected.---')
-#     if USER_INPUT == 0:
-#         print('---User input disabled.---')
-#     elif USER_INPUT == 1:
-#         print('---User input enabled.---')
+    if FUNNEL == carney:
+        print('---Carney funnel selected.---')
+    elif FUNNEL == hall:
+        print('---Hall funnel selected.---')
+    if MANUAL_INPUT == 0:
+        print('---Manual input disabled.---')
+    elif MANUAL_INPUT == 1:
+        print('---Manual input enabled.---')
 #     while True:
 #         try:
-#             FUNNEL = int(input('Choose funnel type [0:Carney, 1:Hall]: '))
+#             FUNNEL = int(input('Enter 0 or 1 for funnel type [0:Carney, 1:Hall]: '))
 #             if FUNNEL == carney:
 #                 print('---Carney funnel selected.---')
 #                 break
@@ -114,21 +102,35 @@ if __name__ == "__main__":
 #             print('Please enter 0 or 1.')
 #     while True:
 #         try:
-#             USER_INPUT = int(input('User input method [0:Disable, 1:Enable]: '))
-#             if USER_INPUT == 0:
-#                 print('---User input disabled.---')
+#             MANUAL_INPUT = int(input('Enter 0 or 1 for manual input method [0:Disable, 1:Enable]: '))
+#             if MANUAL_INPUT == 0:
+#                 print('---Manual input disabled.---')
 #                 break
-#             elif USER_INPUT == 1:
-#                 print('---User input enabled.---')
+#             elif MANUAL_INPUT == 1:
+#                 print('---Manual input enabled.---')
 #                 break
 #             else:
 #                 raise ValueError
 #         except ValueError:
 #             print('Please enter 0 or 1.')
+    print('---Booting up---')
+    ##### communication not stable
+#     analysis.main.Communication()
+#     time.sleep(1)
+#     print('main')
+#     Communication()
+    #####
+    if MANUAL_INPUT == 0:
+#         weigh = data_collection.weighing.ServiceDataCollection()
+#         weigh.start()
+#         data_collection.scanner.Scanner().start() #camera
+        state_data_storage.main.start()
+    else:
+        state_data_storage.main.start()
     print('Please enter/scan a batch code.')
     while True:
         if step == 1:
-            if USER_INPUT == 1:
+            if MANUAL_INPUT == 1:
                     batch_code = input("Enter batch code: ")
                     step = 2
             else:
@@ -141,10 +143,9 @@ if __name__ == "__main__":
                         time.sleep(5)
                         f.truncate(0)
                         step = 2
-#          weight_emptycup = ser.readline()
         elif step == 2:
             try:
-                if USER_INPUT == 1:
+                if MANUAL_INPUT == 1:
                     weight_powder = float(input("Enter powder mass (gram): "))
                     print("Powder mass (gram): ", weight_powder)
                     step = 3
@@ -163,6 +164,7 @@ if __name__ == "__main__":
                 print("That's not a number.")
         elif step == 3:
             laser = laser_detector(pin)
+            start_time = time.time()
             while laser == 1:
                 laser = laser_detector(pin)
                 start_time = time.time()
@@ -192,7 +194,7 @@ if __name__ == "__main__":
                 pass
         elif step == 4:
             try:
-                if USER_INPUT == 1:
+                if MANUAL_INPUT == 1:
                     weight_scrapecup = float(input("Enter powder mass of scraped cup (gram): "))
                     print("Powder mass of scraped cup (gram): ", weight_scrapecup)
                     apparent_density = analysis.main.ServiceAnalysis.apparent_density(weight_scrapecup, CERTIFIED_CUP_VOLUME)
