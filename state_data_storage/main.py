@@ -43,7 +43,7 @@ class Communication:  #try to wrap
         print("Server is started at {}".format(self.server.url))
 
 def start():
-    global Temp1, Temp2, Temp3, Temp4
+    global Temp1, Temp2, Temp3, Temp4, Temp5, Temp6, Temp7 
     server = ExtendedServer(4840)
     node = server.get_objects_node()
 #     print("node is:", node)
@@ -51,8 +51,11 @@ def start():
 #     print("param is:",param)
     Temp1 = param.add_variable (server.addspace, "Time (s)", 0)
     Temp2 = param.add_variable (server.addspace, "Batch code", 0)
-    Temp3 = param.add_variable (server.addspace, "Flowrate (s/g)", 0)
-    Temp4 = param.add_variable (server.addspace, "Apparent density (g/cm3)", 0)
+    Temp3 = param.add_variable (server.addspace, "Elapsed time (s)", 0)
+    Temp4 = param.add_variable (server.addspace, "Powder weight (g)", 0)
+    Temp5 = param.add_variable (server.addspace, "Scraped powder weight (g)", 0)
+    Temp6 = param.add_variable (server.addspace, "Flowrate (g/s)", 0)
+    Temp7 = param.add_variable (server.addspace, "Apparent density (g/cm3)", 0)
     server.start()
     print("Server is started at {}".format(server.url))
     

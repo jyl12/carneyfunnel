@@ -89,16 +89,16 @@ if __name__ == "__main__":
 #     weigh = data_collection.weighing.ServiceDataCollection()
 #     weigh.start()
 #     data_collection.scanner.Scanner().start() #camera
-#     state_data_storage.main.start()
+    state_data_storage.main.start()
     print('---Ready---')
-    if FUNNEL == carney:
-        print('---Carney funnel selected.---')
-    elif FUNNEL == hall:
-        print('---Hall funnel selected.---')
-    if USER_INPUT == 0:
-        print('---User input disabled.---')
-    elif USER_INPUT == 1:
-        print('---User input enabled.---')
+#     if FUNNEL == carney:
+#         print('---Carney funnel selected.---')
+#     elif FUNNEL == hall:
+#         print('---Hall funnel selected.---')
+#     if USER_INPUT == 0:
+#         print('---User input disabled.---')
+#     elif USER_INPUT == 1:
+#         print('---User input enabled.---')
 #     while True:
 #         try:
 #             FUNNEL = int(input('Choose funnel type [0:Carney, 1:Hall]: '))
@@ -212,15 +212,20 @@ if __name__ == "__main__":
             except ValueError:
                 print("That's not a number.")
         elif step == 5:
-#             state_data_storage.main.Temp1.set_value(time.ctime(int(start_time)))
-#             state_data_storage.main.Temp2.set_value(batch_code)
-#             state_data_storage.main.Temp3.set_value(round(flowrate,6))
-#             state_data_storage.main.Temp4.set_value(round(apparent_density,6))
-#             state_data_storage.main.write_csv('record_file',start = time.ctime(int(start_time)),
-#                                               batch = batch_code,
-#                                               duration = round(duration,6),
-#                                               flowrate = round(flowrate,6),
-#                                               apparentdensity = round(apparent_density,6))
+            state_data_storage.main.Temp1.set_value(time.ctime(int(start_time)))
+            state_data_storage.main.Temp2.set_value(batch_code)
+            state_data_storage.main.Temp3.set_value(round(duration,6))
+            state_data_storage.main.Temp4.set_value(weight_powder)
+            state_data_storage.main.Temp5.set_value(weight_scrapecup)
+            state_data_storage.main.Temp6.set_value(round(flowrate,6))
+            state_data_storage.main.Temp7.set_value(round(apparent_density,6))
+            state_data_storage.main.write_csv('record_file',start = time.ctime(int(start_time)),
+                                              batch = batch_code,
+                                              duration = round(duration,6),
+                                              weight_powder = weight_powder,
+                                              weight_scrapecup = weight_scrapecup,
+                                              flowrate = round(flowrate,6),
+                                              apparentdensity = round(apparent_density,6))
             step = 1
             print('----------')
             print('Please enter/scan a batch code.')
