@@ -1,9 +1,8 @@
+#!/usr/bin/env python3
+
 import time
-import serial
 import datetime
 import os
-from pynput.keyboard import Key, Controller
-import keyboard
 import paho.mqtt.client as mqtt
 import RPi.GPIO as GPIO
 
@@ -11,7 +10,6 @@ import RPi.GPIO as GPIO
 import analysis.main 
 import state_data_storage.main
 import data_collection.weighing
-import data_collection.scanner
 
 #General settings
 count = 0
@@ -79,40 +77,40 @@ class Communication (object):
         time.sleep(4)
 
 if __name__ == "__main__":
-    if FUNNEL == carney:
-        print('---Carney funnel selected.---')
-    elif FUNNEL == hall:
-        print('---Hall funnel selected.---')
-    if MANUAL_INPUT == 0:
-        print('---Manual input disabled.---')
-    elif MANUAL_INPUT == 1:
-        print('---Manual input enabled.---')
-#     while True:
-#         try:
-#             FUNNEL = int(input('Enter 0 or 1 for funnel type [0:Carney, 1:Hall]: '))
-#             if FUNNEL == carney:
-#                 print('---Carney funnel selected.---')
-#                 break
-#             elif FUNNEL == hall:
-#                 print('---Hall funnel selected.---')
-#                 break
-#             else:
-#                 raise ValueError
-#         except ValueError:
-#             print('Please enter 0 or 1.')
-#     while True:
-#         try:
-#             MANUAL_INPUT = int(input('Enter 0 or 1 for manual input method [0:Disable, 1:Enable]: '))
-#             if MANUAL_INPUT == 0:
-#                 print('---Manual input disabled.---')
-#                 break
-#             elif MANUAL_INPUT == 1:
-#                 print('---Manual input enabled.---')
-#                 break
-#             else:
-#                 raise ValueError
-#         except ValueError:
-#             print('Please enter 0 or 1.')
+#     if FUNNEL == carney:
+#         print('---Carney funnel selected.---')
+#     elif FUNNEL == hall:
+#         print('---Hall funnel selected.---')
+#     if MANUAL_INPUT == 0:
+#         print('---Manual input disabled.---')
+#     elif MANUAL_INPUT == 1:
+#         print('---Manual input enabled.---')
+    while True:
+        try:
+            FUNNEL = int(input('Enter 0 or 1 for funnel type [0:Carney, 1:Hall]: '))
+            if FUNNEL == carney:
+                print('---Carney funnel selected.---')
+                break
+            elif FUNNEL == hall:
+                print('---Hall funnel selected.---')
+                break
+            else:
+                raise ValueError
+        except ValueError:
+            print('Please enter 0 or 1.')
+    while True:
+        try:
+            MANUAL_INPUT = int(input('Enter 0 or 1 for manual input method [0:Disable, 1:Enable]: '))
+            if MANUAL_INPUT == 0:
+                print('---Manual input disabled.---')
+                break
+            elif MANUAL_INPUT == 1:
+                print('---Manual input enabled.---')
+                break
+            else:
+                raise ValueError
+        except ValueError:
+            print('Please enter 0 or 1.')
     print('---Booting up---')
     ##### communication not stable
 #     analysis.main.Communication()
@@ -121,28 +119,30 @@ if __name__ == "__main__":
 #     Communication()
     #####
     if MANUAL_INPUT == 0:
-#         weigh = data_collection.weighing.ServiceDataCollection()
-#         weigh.start()
-#         data_collection.scanner.Scanner().start() #camera
+        weigh = data_collection.weighing.ServiceDataCollection()
+        weigh.start()
         state_data_storage.main.start()
     else:
         state_data_storage.main.start()
+    
     print('Please enter/scan a batch code.')
     while True:
         if step == 1:
             if MANUAL_INPUT == 1:
-                    batch_code = input("Enter batch code: ")
-                    step = 2
+                batch_code = input("Enter batch code: ")
+                step = 2
             else:
-                with open('data_collection/barcode_result.txt', 'r+') as f:
-                    if os.stat('data_collection/barcode_result.txt').st_size == 0:
-                        pass
-                    else:
-                        batch_code = f.readline()
-                        print("Batch code is: " + batch_code)
-                        time.sleep(5)
-                        f.truncate(0)
-                        step = 2
+                batch_code = input("Enter batch code: ")
+                step = 2
+#                 with open('data_collection/barcode_result.txt', 'r+') as f:
+#                     if os.stat('data_collection/barcode_result.txt').st_size == 0:
+#                         pass
+#                     else:
+#                         batch_code = f.readline()
+#                         print("Batch code is: " + batch_code)
+#                         time.sleep(5)
+#                         f.truncate(0)
+#                         step = 2
         elif step == 2:
             try:
                 if MANUAL_INPUT == 1:

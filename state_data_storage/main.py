@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from opcua import Server
 import time
 from random import randint

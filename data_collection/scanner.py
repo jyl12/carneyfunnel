@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # this is a camera barcode scanner
 import cv2
 from pyzbar import pyzbar
