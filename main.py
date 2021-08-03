@@ -38,10 +38,10 @@ def laser_detector(pin):
     # Read light sensor and display status
     if GPIO.input(pin) == 1:
 #         print('Laser detected.')
-        laser = 1 
+        laser = 0 
     else:
 #         print('Laser not detected.')
-        laser = 0
+        laser = 1
     return laser
     
 class Communication (object):
@@ -112,7 +112,7 @@ if __name__ == "__main__":
         except ValueError:
             print('Please enter 0 or 1.')
     print('---Booting up---')
-    ##### communication not stable
+    ##### communication not 
 #     analysis.main.Communication()
 #     time.sleep(1)
 #     print('main')

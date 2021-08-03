@@ -26,9 +26,9 @@ def laser_detector(pin):
 
     # Read light sensor and display status
     if GPIO.input(pin) == 1:
-        print('Laser detected.')
-    else:
         print('Laser not detected.')
+    else:
+        print('Laser detected.')
 
     # Add time delay
     time.sleep(0.2)
