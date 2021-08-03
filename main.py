@@ -124,7 +124,7 @@ if __name__ == "__main__":
         state_data_storage.main.start()
     else:
         state_data_storage.main.start()
-    
+    print('---Ready---')
     print('Please enter/scan a batch code.')
     while True:
         if step == 1:
