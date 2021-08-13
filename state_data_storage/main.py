@@ -54,20 +54,6 @@ def start():
 #     print("node is:", node)
     param = node.add_object(server.addspace, "Parameters")
 #     print("param is:",param)
-###
-    # Creating a custom event: Approach 1
-    # The custom event object automatically will have members from its parent (BaseEventType)
-    etype = server.create_custom_event_type(server.addspace, 'MyFirstEvent', ua.ObjectIds.BaseEventType, [('MyNumericProperty', ua.VariantType.Float), ('MyStringProperty', ua.VariantType.String)])
-
-    myevgen = server.get_event_generator(etype, param)
-
-    # Creating a custom event: Approach 2
-    custom_etype = server.nodes.base_event_type.add_object_type(2, 'MySecondEvent')
-    custom_etype.add_property(server.addspace, 'MyIntProperty', ua.Variant(0, ua.VariantType.Int32))
-    custom_etype.add_property(server.addspace, 'MyBoolProperty', ua.Variant(True, ua.VariantType.Boolean))
-
-    mysecondevgen = server.get_event_generator(custom_etype, param)
-    ###
     Temp1 = param.add_variable (server.addspace, "Time stamp (s)", 0)
     Temp2 = param.add_variable (server.addspace, "Batch code", 0)
     Temp3 = param.add_variable (server.addspace, "Elapsed time (s)", 0)
@@ -75,7 +61,23 @@ def start():
     Temp5 = param.add_variable (server.addspace, "Scraped powder mass (g)", 0)
     Temp6 = param.add_variable (server.addspace, "Flowrate (g/s)", 0)
     Temp7 = param.add_variable (server.addspace, "Apparent density (g/cm3)", 0)
+    # The custom event object automatically will have members from its parent (BaseEventType)
+    etype = server.create_custom_event_type(server.addspace, 'MyEvent',
+                                            ua.ObjectIds.BaseEventType,
+                                            [('TimeStamp', ua.VariantType.String),
+                                             ('BatchCode', ua.VariantType.String),
+                                             ('ElapsedTime', ua.VariantType.Double),
+                                             ('PowderMass', ua.VariantType.Double),
+                                             ('ScrapedPowderMass', ua.VariantType.Double),
+                                             ('Flowrate', ua.VariantType.Double),
+                                             ('ApparentDensity', ua.VariantType.Double)])
+    myevgen = server.get_event_generator(etype, param)
     server.start()
+    # enable history for myobj events; must be called after start since it uses subscription
+    server.iserver.enable_history_event(param, period=None)
+    # enable history for server events; must be called after start since it uses subscription
+    server_node = server.get_node(ua.ObjectIds.Server)
+    server.historize_node_event(server_node, period=None)
     print("Server is started at {}".format(server.url))
     
 def write_csv(filename = None, **kwargs):
@@ -101,7 +103,6 @@ if __name__ == "__main__":
         myevgen.event.MyNumericProperty = count
         myevgen.event.MyStringProperty = "Property " + str(count)
         myevgen.trigger()
-        mysecondevgen.trigger(message="MySecondEvent %d" % count)
         count += 1
     #***** try wrapper***
 #     opc = Communication(port = 4840)

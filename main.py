@@ -149,7 +149,7 @@ if __name__ == "__main__":
                     weight_powder = float(input("Enter powder mass (gram): "))
                     print("Powder mass (gram): ", weight_powder)
                     step = 3
-                    print('Stopwatch ready, release the powder.')
+                    print('---Stopwatch ready, release the powder.---')
                 else:
                     weigh.weight = 0
                     print('Enter powder mass:')
@@ -159,7 +159,7 @@ if __name__ == "__main__":
                     weigh.weight = 0
                     print("Powder mass (gram): ", weight_powder)
                     step = 3
-                    print('Stopwatch ready, release the powder.')
+                    print('---Stopwatch ready, release the powder.---')
             except ValueError:
                 print("That's not a number.")
         elif step == 3:
@@ -228,6 +228,16 @@ if __name__ == "__main__":
                                               weight_scrapecup = weight_scrapecup,
                                               flowrate = round(flowrate,6),
                                               apparentdensity = round(apparent_density,6))
+            #trigger event
+            state_data_storage.main.myevgen.event.Severity = 1
+            state_data_storage.main.myevgen.event.TimeStamp = time.ctime(int(start_time))
+            state_data_storage.main.myevgen.event.BatchCode = batch_code
+            state_data_storage.main.myevgen.event.ElapsedTime = round(duration,6)
+            state_data_storage.main.myevgen.event.PowderMass = weight_powder
+            state_data_storage.main.myevgen.event.ScrapedPowderMass = weight_scrapecup
+            state_data_storage.main.myevgen.event.Flowrate = round(flowrate,6)
+            state_data_storage.main.myevgen.event.ApparentDensity = round(apparent_density,6)
+            state_data_storage.main.myevgen.trigger(message="Batch: %s" % batch_code )
             step = 1
             print('----------')
             print('Please enter/scan a batch code.')
