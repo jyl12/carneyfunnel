@@ -174,7 +174,7 @@ if __name__ == "__main__":
                 time.sleep(0.02)
                 while laser == 1:
                     count += 1
-                    if count == 5:
+                    if count == 4:
                         count = 0
                         break
             end_time = time.time()
