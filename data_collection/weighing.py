@@ -8,7 +8,7 @@ class ServiceDataCollection(object):
     def __init__(self):     
         self.weight = 0
         self.ser = serial.Serial(
-         port='/dev/ttyACM0', #'/dev/ttyUSB0',
+         port='/dev/ttyUSB0', #'/dev/ttyUSB0', /dev/ttyACM0'
          baudrate = 9600,
          parity=serial.PARITY_ODD,
          stopbits=serial.STOPBITS_ONE,
